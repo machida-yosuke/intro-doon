@@ -1,7 +1,12 @@
 import React from "react";
 import logo from "images/logo.svg";
-
 import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+import { setName } from "stores/user";
+import { useEffect } from "react";
+import { RootState } from "stores";
+import wait from "scripts/utiles/wait";
+
 const HomeWrap = styled.div`
   text-align: center;
 `;
@@ -37,7 +42,25 @@ const HomeLink = styled.a`
   font-weight: 700;
 `;
 
+const Name = styled.div`
+  color: #61dafb;
+  font-weight: 700;
+`;
+
 function Home() {
+  const dispatch = useDispatch();
+
+  const name = useSelector((state: RootState) => state.user.name);
+
+  useEffect(() => {
+    const f = async () => {
+      await wait(1000);
+      dispatch(setName("machida"));
+    };
+    f();
+    return;
+  });
+
   return (
     <HomeWrap>
       <HomeHeader>
@@ -52,6 +75,7 @@ function Home() {
         >
           Learn React
         </HomeLink>
+        <Name>{name}</Name>
       </HomeHeader>
     </HomeWrap>
   );
